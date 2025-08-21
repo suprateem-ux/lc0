@@ -9,6 +9,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
@@ -24,8 +25,9 @@ jobs:
           export CC=gcc-10
           export CXX=g++-10
           ./build.sh release -Ddnnl=true -Ddnnl_dir=/usr
-          
-      - name: Copy binary to engines folder
-        run: |
-          mkdir -p ../BotLi/engines
-          cp build/release/lc0 ../BotLi/engines/lc0
+
+      - name: Upload Lc0 binary as artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: lc0-binary
+          path: build/release/lc0
