@@ -27,7 +27,7 @@ jobs:
           ./build.sh release -Ddnnl=true -Ddnnl_dir=/usr
 
       - name: Upload Lc0 binary as artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: lc0-binary
           path: build/release/lc0
