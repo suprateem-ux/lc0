@@ -1,0 +1,31 @@
+name: Build lc0 CPU DNNL
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y git python3-pip gcc-10 g++-10 zlib1g-dev libgtest-dev
+          pip3 install --upgrade meson ninja
+
+      - name: Build Lc0 with DNNL
+        run: |
+          export CC=gcc-10
+          export CXX=g++-10
+          ./build.sh release -Ddnnl=true -Ddnnl_dir=/usr
+          
+      - name: Copy binary to engines folder
+        run: |
+          mkdir -p ../BotLi/engines
+          cp build/release/lc0 ../BotLi/engines/lc0
