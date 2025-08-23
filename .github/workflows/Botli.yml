@@ -34,7 +34,7 @@ jobs:
         with:
           repository: suprateem-ux/BotLi
           path: BotLi
-          token: ${{ secrets.BOTLI_PAT}}
+          token: ${{ secrets.BOTLI_PAT }}
 
       - name: Copy Lc0 binary to BotLi engines folder
         run: |
