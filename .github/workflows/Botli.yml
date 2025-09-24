@@ -19,7 +19,9 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y git python3-pip gcc-10 g++-10 zlib1g-dev libgtest-dev cmake ninja-build libdnnl-dev
+          sudo apt-get install -y \
+            git python3-pip gcc-10 g++-10 zlib1g-dev libgtest-dev \
+            cmake ninja-build libdnnl-dev
           pip3 install --upgrade meson ninja
 
       - name: Build Lc0 with DNNL
@@ -27,7 +29,8 @@ jobs:
           cd lc0_build
           export CC=gcc-10
           export CXX=g++-10
-          ./build.sh release -Ddnnl=true -Ddnnl_dir=/usr
+          ./build.sh release -Dninja=true -Dgtest=false -Ddnnl=true -Ddnnl_dir=/usr
+          ./build/release/lc0 --help | grep Backend || true
 
       - name: Checkout BotLi repo
         uses: actions/checkout@v3
@@ -48,5 +51,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add engines/lc0
-          git commit -m "Update Lc0 DNNL binary"
+          git commit -m "Update Lc0 DNNL binary" || echo "No changes to commit"
           git push
